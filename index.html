@@ -1,20 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html style="font-family:verdana">
 
 <head>
     <title>Milege</title>
 </head>
 
 <body>
+    <style>
+        @media print {
+            #main * {
+                display: none;
+            }
+        }
+    </style>
+
+    <div id="main">
+        <div style="width:60%;margin-top:20px;margin-bottom:20px">
+            <h1 style="text-align: center;">Milege</h1>
+            <h2>Kurze Erklärung:</h2>
+            <dl>
+                <dt>Geschichte:</dt>
+                <dd>Schreibe oder kopiere eine Geschichte in den Kasten.</dd>
+                <br>
+                <dt>Bilder:</dt>
+                <dd>Suche oder male Bilder dazu und füge sie mit dem "Dateien auswählen"-Knopf ein oder zieh sie mit der Maus auf den Knopf.
+                </dd>
+                <br>
+                <dt>Sonstiges:</dt>
+                <dd>Die Wörter in der Geschichten werden anhand der Dateinamen der Bilder ersetzt.</dd>
+                <dd>Nach dem Erzeugen, kann man die Geschichte direkt hier im Browser lesen oder Drucken.</dd>
+            </dl>
+        </div>
+
         <form id="form">
-            <textarea id="geschichte" cols="40" rows="5">Hier die Geschichte rein</textarea>
+            <textarea id="geschichte" cols="100" rows="10">Hier die Geschichte rein</textarea>
             <br>
             <input type="file" text="Bilder auswählen" id="pictures" accept="image/png, image/jpeg" multiple>
             <br><br>
             <input type="submit" value="Geschichte erzeugen">
         </form>
-    <div id="preview">
-
+        <br><br>
+        <div>
+            <h2>Hier landet die fertige Geschichte:</h2>
+        </div>
+    </div>
+    <div id="preview" style="border:solid; width=100%; min-height: 100%; line-height:40px;">
     </div>
 </body>
 
@@ -37,11 +67,11 @@
     async function createstory(text, images, waitfor) {
         for (let i = 0; i < images.length; ++i) {
             const image = images[i];
-            text = text.replace(image.name, "<div class=\"Image " + image.name + "\"></div>");
+            text = text.replace(image.name, "<div class=\"image " + image.name + "\"></div>");
         }
 
         await waitfor;
-        document.getElementById('preview').innerHTML = "<span>"  + text + "</span>";
+        document.getElementById('preview').innerHTML = "<span>" + text + "</span>";
     }
 
     function convert(files) {
@@ -65,7 +95,7 @@
 
     async function createinlineimages(base64images) {
 
-        var style = "<style> .Image {width:40px; height:40px; vertical-align: middle; display: inline-block;}";
+        var style = "<style> .image {width:40px; height:40px; vertical-align: middle; display: inline-block;}";
 
         for (let i = 0; i < base64images.length; ++i) {
             const image = base64images[i];
