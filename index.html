@@ -12,25 +12,54 @@
                 display: none;
             }
         }
+
+        .collapsible {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .active,
+        .collapsible:hover {
+            background-color: #ccc;
+        }
+
+        .content {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
     </style>
 
     <div id="main">
         <div style="width:60%;margin-top:20px;margin-bottom:20px">
             <h1 style="text-align: center;">Milege</h1>
-            <h2>Kurze Erklärung:</h2>
-            <dl>
-                <dt>Geschichte:</dt>
-                <dd>Schreibe oder kopiere eine Geschichte in den Kasten.</dd>
-                <br>
-                <dt>Bilder:</dt>
-                <dd>Suche oder male Bilder dazu und füge sie mit dem "Dateien auswählen"-Knopf ein oder zieh sie mit der
-                    Maus auf den Knopf.
-                </dd>
-                <br>
-                <dt>Sonstiges:</dt>
-                <dd>Die Wörter in der Geschichten werden anhand der Dateinamen der Bilder ersetzt.</dd>
-                <dd>Nach dem Erzeugen, kann man die Geschichte direkt hier im Browser lesen oder Drucken.</dd>
-            </dl>
+            <button type="button" class="collapsible">
+                <h2>Kurze Erklärung:</h2>
+            </button>
+            <div class="content">
+                <dl>
+                    <dt>Textfeld:</dt>
+                    <dd>Schreibe oder kopiere eine Geschichte in den Kasten.</dd>
+                    <br>
+                    <dt>Dateien auswählen:</dt>
+                    <dd>Suche oder male Bilder dazu und füge sie mit dem "Dateien auswählen"-Knopf ein oder zieh sie mit
+                        der Maus auf den Knopf.
+                    </dd>
+                    <br>
+                    <dt>Info:</dt>
+                    <dd>Die Wörter in der Geschichten werden anhand der Dateinamen der Bilder ersetzt.</dd>
+                    <dd>Nach dem Erzeugen, kann man die Geschichte direkt hier im Browser lesen oder Drucken.</dd>
+                </dl>
+            </div>
         </div>
 
         <div>
@@ -49,6 +78,20 @@
 </body>
 
 <script>
+    var coll = document.getElementsByClassName("collapsible");
+
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+
     function createStory() {
         var text = document.getElementById('geschichte').value;
         var base64images = convert(document.getElementById('pictures').files);
