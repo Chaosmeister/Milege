@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MiLeGe</title>
+</head>
+
+<body>
+        <form id="form">
+            <textarea id="geschichte" cols="40" rows="5"></textarea>
+            <br>
+            <input type="file" id="pictures" accept="image/png, image/jpeg" multiple>
+            <input type="submit" value="Geschichte erzeugen">
+        </form>
+    <div id="preview">
+
+    </div>
+</body>
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $("#form").submit(function (event) {
+                event.preventDefault();
+                var text = document.getElementById('geschichte').value;
+                var base64images = convert(document.getElementById('pictures').files);
+                createinlineimages(base64images);
+                createstory(text, base64images);
+            });
+        });
+    });
+
+    async function createstory(text, images, waitfor) {
+        for (let i = 0; i < images.length; ++i) {
+            const image = images[i];
+            text = text.replace(image.name, "<div class=\"Image " + image.name + "\"></div>");
+        }
+
+        await waitfor;
+        document.getElementById('preview').innerHTML = "<span>"  + text + "</span>";
+    }
+
+    function convert(files) {
+        var base64images = [];
+        for (let i = 0; i < files.length; ++i) {
+            const file = files[i];
+
+            if (!file.type.startsWith('image/')) { continue }
+
+            base64images.push({ name: file.name.replace(/\.[^/.]+$/, ""), data: toBase64(file) });
+        }
+        return base64images;
+    }
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    async function createinlineimages(base64images) {
+
+        var style = "<style> .Image {width:40px; height:40px; vertical-align: middle; display: inline-block;}";
+
+        for (let i = 0; i < base64images.length; ++i) {
+            const image = base64images[i];
+            style += "\n ." + image.name + "{background: url(" + await image.data + ") no-repeat left center;background-size: 100% 100%;}";
+        }
+
+        style += "\n</style>";
+
+        document.getElementById('preview').innerHTML = style + document.getElementById('preview').innerHTML;
+    }
+</script>
+
+</html>
