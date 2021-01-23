@@ -7,6 +7,10 @@
 
 <body>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         @media print {
             #main * {
                 display: none;
@@ -37,36 +41,63 @@
             overflow: hidden;
             transition: max-height 0.2s ease-out;
         }
+
+        .left {
+            padding: 18px;
+            float: left;
+            width: 50%;
+        }
+
+        .right {
+            padding: 18px;
+            float: right;
+            width: 50%;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
     </style>
 
     <div id="main">
-        <div style="width:60%;margin-top:20px;margin-bottom:20px">
-            <h1 style="text-align: center;">Milege</h1>
+        <h1 style="text-align: center;">Milege</h1>
+        <div class="clearfix" style="margin-top:20px;margin-bottom:20px">
             <button type="button" class="collapsible">
-                <h2>Kurze Erklärung:</h2>
+                <h2>Informationen</h2>
             </button>
-            <div class="content">
+            <div class="content left">
                 <dl>
                     <dt>Textfeld:</dt>
                     <dd>Schreibe oder kopiere eine Geschichte in den Kasten.</dd>
                     <br>
                     <dt>Dateien auswählen:</dt>
-                    <dd>Suche oder male Bilder dazu und füge sie mit dem "Dateien auswählen"-Knopf ein oder zieh sie mit
-                        der Maus auf den Knopf.
+                    <dd>Suche oder male Bilder dazu und füge sie mit dem "Dateien auswählen"-Knopf ein oder zieh sie mit der Maus auf den Knopf.
                     </dd>
-                    <br>
+                </dl>
+            </div>
+            <div class="content left">
+                <dl>
                     <dt>Info:</dt>
                     <dd>Die Wörter in der Geschichten werden anhand der Dateinamen der Bilder ersetzt.</dd>
                     <dd>Nach dem Erzeugen, kann man die Geschichte direkt hier im Browser lesen oder Drucken.</dd>
+                    <br>
+                    <dt><a href="https://github.com/Chaosmeister/Milege">Code</a></dt>
                 </dl>
             </div>
         </div>
-
+        <div class="clearfix">
+            <div class="left">
+                <div style="text-align: center; padding: 20px">Hier die Geschichte rein</div>
+                <div contenteditable id="geschichte" style="min-height: 100px;border: solid;"></div>
+            </div>
+            <div class="right">
+                <div style="text-align: center; padding: 20px">Hier die Bilder ablegen</div>
+                <input type="file" size="8" id="pictures" accept="image/png, image/jpeg" multiple>
+            </div>
+        </div>
         <div>
-            <textarea id="geschichte" cols="100" rows="10">Hier die Geschichte rein</textarea>
-            <br>
-            <input type="file" text="Bilder auswählen" id="pictures" accept="image/png, image/jpeg" multiple>
-            <br><br>
             <button onclick="createStory()">Geschichte erstellen</button>
         </div>
         <div>
@@ -89,11 +120,17 @@
             } else {
                 content.style.maxHeight = content.scrollHeight + "px";
             }
+            content = content.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
         });
     }
 
     function createStory() {
-        var text = document.getElementById('geschichte').value;
+        var text = document.getElementById('geschichte').textContent;
         var base64images = convert(document.getElementById('pictures').files);
         createInlineImages(base64images);
         assembleStory(text, base64images);
