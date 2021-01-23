@@ -23,7 +23,8 @@
                 <dd>Schreibe oder kopiere eine Geschichte in den Kasten.</dd>
                 <br>
                 <dt>Bilder:</dt>
-                <dd>Suche oder male Bilder dazu und füge sie mit dem "Dateien auswählen"-Knopf ein oder zieh sie mit der Maus auf den Knopf.
+                <dd>Suche oder male Bilder dazu und füge sie mit dem "Dateien auswählen"-Knopf ein oder zieh sie mit der
+                    Maus auf den Knopf.
                 </dd>
                 <br>
                 <dt>Sonstiges:</dt>
@@ -32,14 +33,13 @@
             </dl>
         </div>
 
-        <form id="form">
+        <div>
             <textarea id="geschichte" cols="100" rows="10">Hier die Geschichte rein</textarea>
             <br>
             <input type="file" text="Bilder auswählen" id="pictures" accept="image/png, image/jpeg" multiple>
             <br><br>
-            <input type="submit" value="Geschichte erzeugen">
-        </form>
-        <br><br>
+            <button onclick="createStory()">Geschichte erstellen</button>
+        </div>
         <div>
             <h2>Hier landet die fertige Geschichte:</h2>
         </div>
@@ -48,31 +48,13 @@
     </div>
 </body>
 
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-
 <script>
-    $(document).ready(function () {
-        $(function () {
-            $("#form").submit(function (event) {
-                event.preventDefault();
-                var text = document.getElementById('geschichte').value;
-                var base64images = convert(document.getElementById('pictures').files);
-                createinlineimages(base64images);
-                createstory(text, base64images);
-            });
-        });
-    });
-
-    async function createstory(text, images, waitfor) {
-        for (let i = 0; i < images.length; ++i) {
-            const image = images[i];
-            text = text.replace(image.name, "<div class=\"image " + image.name + "\"></div>");
-        }
-
-        await waitfor;
-        document.getElementById('preview').innerHTML = "<span>" + text + "</span>";
-    }
+    function createStory() {
+        var text = document.getElementById('geschichte').value;
+        var base64images = convert(document.getElementById('pictures').files);
+        createInlineImages(base64images);
+        assembleStory(text, base64images);
+    };
 
     function convert(files) {
         var base64images = [];
@@ -93,7 +75,7 @@
         reader.onerror = error => reject(error);
     });
 
-    async function createinlineimages(base64images) {
+    async function createInlineImages(base64images) {
 
         var style = "<style> .image {width:40px; height:40px; vertical-align: middle; display: inline-block;}";
 
@@ -105,6 +87,15 @@
         style += "\n</style>";
 
         document.getElementById('preview').innerHTML = style + document.getElementById('preview').innerHTML;
+    }
+
+    async function assembleStory(text, images) {
+        for (let i = 0; i < images.length; ++i) {
+            const image = images[i];
+            text = text.replace(image.name, "<div class=\"image " + image.name + "\"></div>");
+        }
+
+        document.getElementById('preview').innerHTML = "<span>" + text + "</span>";
     }
 </script>
 
