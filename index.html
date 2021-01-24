@@ -5,17 +5,14 @@
     <title>Milege</title>
 </head>
 
-<body>
+<body class="body">
     <style>
         * {
             box-sizing: border-box;
-            background-color: #d1d8e0;
         }
 
-        @media print {
-            #main * {
-                display: none;
-            }
+        .body {
+            background-color: #d1d8e0;
         }
 
         .collapsible {
@@ -38,7 +35,6 @@
             padding: 0 18px 18px 18px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.2s ease-out;
         }
 
         .left {
@@ -57,6 +53,35 @@
             content: "";
             clear: both;
             display: table;
+        }
+
+        .preview {
+            border: solid;
+            width: 100%;
+            min-height: 100%;
+            line-height: 40px;
+            background-color: white;
+            display: grid;
+        }
+
+        .story {
+            min-height: 100px;
+            border: solid;
+            background-color: white;
+        }
+
+        @media print {
+            #main * {
+                display: none;
+            }
+
+            .body {
+                background-color: white;
+            }
+
+            .preview {
+                border: none;
+            }
         }
     </style>
 
@@ -78,7 +103,7 @@
                         </dd>
                     </dl>
                 </div>
-                <div class="left">
+                <div class="right">
                     <dl>
                         <dt>Info:</dt>
                         <dd>Die Wörter in der Geschichten werden anhand der Dateinamen der Bilder ersetzt.</dd>
@@ -93,7 +118,7 @@
         <div class="clearfix">
             <div class="left">
                 <div style="text-align: center; padding: 20px">Hier die Geschichte rein</div>
-                <div contenteditable id="geschichte" style="min-height: 100px;border: solid;"></div>
+                <div contenteditable="plaintext-only" id="story" class="story"></div>
             </div>
             <div class="right">
                 <div style="text-align: center; padding: 20px">Hier die Bilder ablegen</div>
@@ -104,7 +129,7 @@
             <h2>Hier landet die fertige Geschichte:</h2>
         </div>
     </div>
-    <div id="preview" style="border:solid; width=100%; min-height: 100%; line-height:40px;"> </div>
+    <div id="preview" class="preview"></div>
 </body>
 
 <script>
@@ -122,14 +147,13 @@
         });
     }
 
-    document.getElementById('geschichte').addEventListener("input", createStory);
+    document.getElementById('story').addEventListener("input", createStory);
     document.getElementById('pictures').addEventListener("change", createStory);
 
     function createStory() {
-        var text = document.getElementById('geschichte').textContent;
         var base64images = convert(document.getElementById('pictures').files);
         createInlineImages(base64images);
-        assembleStory(text, base64images);
+        assembleStory(document.getElementById('story').textContent, base64images);
     };
 
     function convert(files) {
@@ -169,16 +193,13 @@
 
         for (let i = 0; i < images.length; ++i) {
             const image = images[i];
-            text = text.replace(image.name, "<div class=\"image " + image.name + "\"></div>");
+            text = text.replaceAll(new RegExp("\\b" + image.name + "\\b", 'g' ), "<div class=\"image " + image.name + "\"></div>");
         }
 
         text = text.replace(/(?:\r\n|\r|\n)/g, '</span><span>');
+        text = text.replaceAll("</span><span></span><span>", '</span><span>');
 
-        var story = "<span>";
-        story += text;
-        story += "</span>";
-
-        document.getElementById('preview').innerHTML = story;
+        document.getElementById('preview').innerHTML = "<span>" + text + "</span>";
     }
 </script>
 
