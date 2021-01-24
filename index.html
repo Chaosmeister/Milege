@@ -9,6 +9,7 @@
     <style>
         * {
             box-sizing: border-box;
+            background-color: #d1d8e0;
         }
 
         @media print {
@@ -18,25 +19,23 @@
         }
 
         .collapsible {
-            background-color: #eee;
-            color: #444;
             cursor: pointer;
-            padding: 18px;
+            padding: 10px;
             width: 100%;
             border: none;
-            text-align: left;
+            text-align: center;
             outline: none;
-            font-size: 15px;
+            font-size: 30px;
         }
 
         .active,
         .collapsible:hover {
-            background-color: #ccc;
+            background-color: #778ca3;
+            transition: 0.2s ease-out;
         }
 
         .content {
-            padding: 0 18px;
-            background-color: white;
+            padding: 0 18px 18px 18px;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.2s ease-out;
@@ -65,26 +64,30 @@
         <h1 style="text-align: center;">Milege</h1>
         <div class="clearfix" style="margin-top:20px;margin-bottom:20px">
             <button type="button" class="collapsible">
-                <h2>Informationen</h2>
+                Informationen
             </button>
-            <div class="content left">
-                <dl>
-                    <dt>Textfeld:</dt>
-                    <dd>Schreibe oder kopiere eine Geschichte in den Kasten.</dd>
-                    <br>
-                    <dt>Dateien auswählen:</dt>
-                    <dd>Suche oder male Bilder dazu und füge sie mit dem "Dateien auswählen"-Knopf ein oder zieh sie mit der Maus auf den Knopf.
-                    </dd>
-                </dl>
-            </div>
-            <div class="content left">
-                <dl>
-                    <dt>Info:</dt>
-                    <dd>Die Wörter in der Geschichten werden anhand der Dateinamen der Bilder ersetzt.</dd>
-                    <dd>Nach dem Erzeugen, kann man die Geschichte direkt hier im Browser lesen oder Drucken.</dd>
-                    <br>
-                    <dt><a href="https://github.com/Chaosmeister/Milege">Code</a></dt>
-                </dl>
+            <div class=content>
+                <div class="left">
+                    <dl>
+                        <dt>Textfeld:</dt>
+                        <dd>Schreibe oder kopiere eine Geschichte in den Kasten.</dd>
+                        <br>
+                        <dt>Dateien auswählen:</dt>
+                        <dd>Suche oder male Bilder dazu und füge sie mit dem "Dateien auswählen"-Knopf ein oder zieh sie
+                            mit der Maus auf den Knopf.
+                        </dd>
+                    </dl>
+                </div>
+                <div class="left">
+                    <dl>
+                        <dt>Info:</dt>
+                        <dd>Die Wörter in der Geschichten werden anhand der Dateinamen der Bilder ersetzt.</dd>
+                        <dd>Nach dem Erzeugen, kann man die Geschichte direkt hier im Browser lesen oder Drucken.</dd>
+                        <br>
+                        <dd><a href="https://github.com/Chaosmeister/Milege" class="button">zum Code</a></dd>
+                        <dd><a href="https://www.patreon.com/bePatron?u=6684747">Become a Patron!</a></dd>
+                    </dl>
+                </div>
             </div>
         </div>
         <div class="clearfix">
@@ -98,14 +101,10 @@
             </div>
         </div>
         <div>
-            <button onclick="createStory()">Geschichte erstellen</button>
-        </div>
-        <div>
             <h2>Hier landet die fertige Geschichte:</h2>
         </div>
     </div>
-    <div id="preview" style="border:solid; width=100%; min-height: 100%; line-height:40px;">
-    </div>
+    <div id="preview" style="border:solid; width=100%; min-height: 100%; line-height:40px;"> </div>
 </body>
 
 <script>
@@ -120,14 +119,11 @@
             } else {
                 content.style.maxHeight = content.scrollHeight + "px";
             }
-            content = content.nextElementSibling;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
         });
     }
+
+    document.getElementById('geschichte').addEventListener("input", createStory);
+    document.getElementById('pictures').addEventListener("change", createStory);
 
     function createStory() {
         var text = document.getElementById('geschichte').textContent;
@@ -170,12 +166,19 @@
     }
 
     async function assembleStory(text, images) {
+
         for (let i = 0; i < images.length; ++i) {
             const image = images[i];
             text = text.replace(image.name, "<div class=\"image " + image.name + "\"></div>");
         }
 
-        document.getElementById('preview').innerHTML = "<span>" + text + "</span>";
+        text = text.replace(/(?:\r\n|\r|\n)/g, '</span><span>');
+
+        var story = "<span>";
+        story += text;
+        story += "</span>";
+
+        document.getElementById('preview').innerHTML = story;
     }
 </script>
 
