@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html style="font-family:verdana">
+<meta name="viewport" content="width=device-width" />
+<meta charset="UTF-8">
 
 <head>
     <title>Milege</title>
@@ -193,7 +195,7 @@
 
         for (let i = 0; i < images.length; ++i) {
             const image = images[i];
-            text = text.replaceAll(new RegExp("\\b" + image.name + "\\b", 'g' ), "<div class=\"image " + image.name + "\"></div>");
+            text = text.replaceAll(new RegExp("\\b" + image.name + "\\b", 'g'), "<div class=\"image " + image.name + "\"></div>");
         }
 
         text = text.replace(/(?:\r\n|\r|\n)/g, '</span><span>');
