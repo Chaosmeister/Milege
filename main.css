@@ -151,6 +151,7 @@ body {
 }
 
 .result {
+    line-height: 40px;
     display: flex;
     flex-direction: column;
 }
