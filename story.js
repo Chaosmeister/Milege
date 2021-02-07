@@ -69,7 +69,7 @@ function assembleStory(text, images) {
     }
 
     text = text.replace(/(?:\r\n|\r|\n)/g, '</span><span>');
-    text = text.replaceAll("</span><span></span><span>", '</span><span>');
+    text = text.replaceAll("</span><span></span><span>", '</span><br><span>');
 
     document.getElementById('result').innerHTML += "<span>" + text + "</span>";
 }
