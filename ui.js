@@ -40,12 +40,15 @@ function readFiles(files) {
         if (!file) {
             return;
         }
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var contents = e.target.result;
-            addImage({ name: file.name.replace(/\.[^/.]+$/, ""), data: contents });
+        var imageType = /image.*/;
+        if (file.type.match(imageType)) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var contents = e.target.result;
+                addImage({ name: file.name.replace(/\.[^/.]+$/, ""), data: contents });
+            }
+            reader.readAsDataURL(file);
         }
-        reader.readAsDataURL(file);
     });
 }
 
@@ -137,7 +140,7 @@ function addPill(newpillbutton, text) {
         if (e.key === "Enter") {
             e.preventDefault();
             e.path[0].blur();
-            
+
             if (window.getSelection) {
                 window.getSelection().removeAllRanges();
             } else if (document.selection) {
