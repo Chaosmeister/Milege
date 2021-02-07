@@ -100,7 +100,7 @@ function addImage(image) {
     var previewtarget = newImage.childNodes.item(1).childNodes.item(1);
     previewtarget.src = image.data;
     previewtarget.setAttribute("class", "previewimage");
-    
+
     createStory();
 }
 
@@ -133,4 +133,5 @@ function addPill(newpillbutton, text) {
 
 function removePill(pill) {
     pill.parentElement.parentElement.removeChild(pill.parentElement);
+    createStory();
 }
