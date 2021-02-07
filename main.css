@@ -33,11 +33,17 @@ body {
 .menu {
     margin-left: auto;
     margin-right: 16px;
-    width: 400px;
+    width: 50%;
+    max-width: 300px;
     display: flex;
     line-height: 19px;
     justify-content: space-around;
     align-items: center
+}
+
+.dot {
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .content {
