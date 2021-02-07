@@ -133,6 +133,7 @@ body {
     box-sizing: border-box;
     border-radius: 8px;
     text-align: center;
+    height: 70px;
 }
 
 .removeimage {
