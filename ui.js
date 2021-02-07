@@ -108,13 +108,16 @@ function addPill(newpillbutton, text) {
     var newpill = document.createElement("div");
     newpill.setAttribute("id", "pill");
     newpill.setAttribute("class", "pill");
-    newpill.setAttribute("contenteditable", "plaintext-only");
 
+    var newContent = document.createElement("div");
+    newContent.setAttribute("contenteditable", "plaintext-only");
     if (text) {
-        newpill.innerText = text;
+        newContent.innerText = text;
     } else {
-        newpill.innerText = 'new';
+        newContent.innerText = 'new';
     }
+
+    newpill.appendChild(newContent);
 
     newpill.innerHTML += '<img class="close" width="20" height="20" src="SVG/PlusWhite.svg" onclick=removePill(this);>'
 

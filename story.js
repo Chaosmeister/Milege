@@ -29,7 +29,9 @@ function extractData(element) {
 function extractWords(element) {
     var words = [];
 
-    Array.from(element.childNodes.item(3).childNodes).forEach(function (pill) {
+    var pills = element.childNodes.item(3).childNodes;
+
+    Array.from(pills).forEach(function (pill) {
         if (pill.innerText) {
             words.push(pill.innerText);
         }
