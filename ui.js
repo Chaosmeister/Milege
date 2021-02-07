@@ -116,7 +116,7 @@ function addPill(newpillbutton, text) {
         newpill.innerText = 'new';
     }
 
-    newpill.innerHTML += '<img class="close" width="20" height="20" src="SVG/Plus.svg" onclick=removePill(this);>'
+    newpill.innerHTML += '<img class="close" width="20" height="20" src="SVG/PlusWhite.svg" onclick=removePill(this);>'
 
     newpillbutton.parentElement.insertBefore(newpill, newpillbutton);
 }
