@@ -1,3 +1,5 @@
+document.getElementById('input').addEventListener("input", createStory);
+
 const nonDropArea = document.getElementById("main");
 nonDropArea.addEventListener('dragover', (event) => {
     event.stopPropagation();
@@ -44,22 +46,22 @@ function readFiles(files) {
             var contents = e.target.result;
             addImage({ name: file.name.replace(/\.[^/.]+$/, ""), data: contents });
         }
-        reader.readAsDataURL(file)
+        reader.readAsDataURL(file);
     });
 }
 
 function openFile(func) {
-    fileInput = document.createElement("input")
-    fileInput.type = 'file'
-    fileInput.style.display = 'none'
+    fileInput = document.createElement("input");
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
     fileInput.setAttribute("multiple", "");
-    fileInput.setAttribute("accept", "image/png, image/jpeg")
-    fileInput.onchange = changefiles
-    document.body.appendChild(fileInput)
+    fileInput.setAttribute("accept", "image/png, image/jpeg");
+    fileInput.onchange = changefiles;
+    document.body.appendChild(fileInput);
 
-    clickElem(fileInput)
+    clickElem(fileInput);
 
-    document.body.removeChild(fileInput)
+    document.body.removeChild(fileInput);
 }
 
 function showInNewTab() {
@@ -98,10 +100,13 @@ function addImage(image) {
     var previewtarget = newImage.childNodes.item(1).childNodes.item(1);
     previewtarget.src = image.data;
     previewtarget.setAttribute("class", "previewimage");
+    
+    createStory();
 }
 
 function removeImage(image) {
     image.parentElement.parentElement.removeChild(image.parentElement);
+    createStory();
 }
 
 function addPill(newpillbutton, text) {
@@ -111,6 +116,8 @@ function addPill(newpillbutton, text) {
 
     var newContent = document.createElement("div");
     newContent.setAttribute("contenteditable", "plaintext-only");
+    newContent.setAttribute("onInput", "createStory();");
+
     if (text) {
         newContent.innerText = text;
     } else {

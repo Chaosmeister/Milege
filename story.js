@@ -1,5 +1,3 @@
-document.getElementById('input').addEventListener("input", createStory);
-
 function createStory() {
     var base64images = collectImages();
     createInlineImages(base64images);
