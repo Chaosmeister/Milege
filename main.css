@@ -151,8 +151,8 @@ body {
 }
 
 .result {
-    height: 100%;
-    display: grid;
+    display: flex;
+    flex-direction: column;
 }
 
 .inlineimage {
