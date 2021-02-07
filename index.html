@@ -1,317 +1,77 @@
 <!DOCTYPE html>
-<html style="font-family:verdana">
+<html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta charset="UTF-8">
 
 <head>
     <title>Milege</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 
 <body class="body">
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        .body {
-            background-color: #d1d8e0;
-        }
-
-        .collapsible {
-            cursor: pointer;
-            padding: 10px;
-            width: 100%;
-            border: none;
-            text-align: center;
-            outline: none;
-            font-size: 30px;
-        }
-
-        .pointer {
-            cursor: pointer;
-        }
-
-        .active,
-        .collapsible:hover {
-            background-color: #778ca3;
-            transition: 0.2s ease-out;
-        }
-
-        .content {
-            padding: 0 18px 18px 18px;
-            max-height: 0;
-            overflow: hidden;
-        }
-
-        .left {
-            padding: 18px;
-            float: left;
-            width: 50%;
-        }
-
-        .right {
-            padding: 18px;
-            float: right;
-            width: 50%;
-        }
-
-        .clearfix::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        .story {
-            min-height: 100px;
-            border: solid;
-            background-color: white;
-        }
-
-        @media print {
-            .noprint * {
-                display: none;
-            }
-
-            .body {
-                background-color: white;
-            }
-
-            .preview {
-                border: none;
-                display: grid;
-            }
-        }
-
-        @media only screen and (max-width: 700px) {
-            .right {
-                padding: 18px;
-                float: left;
-                width: 100%;
-            }
-
-            .left {
-                padding: 18px;
-                float: left;
-                width: 100%;
-            }
-        }
-    </style>
-
-    <div id="input" class="noprint">
-        <h1 style="text-align: center;">Milege</h1>
-        <div class="clearfix" style="margin-top:20px;margin-bottom:20px">
-            <button type="button" class="collapsible">
-                Informationen
-            </button>
-            <div class=content>
-                <div class="left">
-                    <dl>
-                        <dt>Textfeld:</dt>
-                        <dd>Schreibe oder kopiere eine Geschichte in den Kasten.</dd>
-                        <br>
-                        <dt>Dateien auswählen:</dt>
-                        <dd>Suche oder male Bilder dazu und füge sie mit dem "Dateien auswählen"-Knopf ein oder zieh sie
-                            mit der Maus auf den Knopf.
-                        </dd>
-                    </dl>
+    <div id="main" class="main">
+        <div id="header" class="header">
+            <div id="title" class="title">Milege</div>
+            <div id="menu" class="menu">
+                <div id="patreon" onclick="window.open('https://www.patreon.com/bePatron?u=6684747', '_blank')"
+                    style="cursor:pointer;">BECOME A PATREON</div>
+                <div>•</div>
+                <div id="github" onclick="window.open('https://github.com/Chaosmeister/Milege', '_blank')"
+                    style="cursor:pointer;">GITHUB</div>
+                <div>•</div>
+                <div id="about">ABOUT</div>
+                <div>•</div>
+                <div id="language">EN <img src="SVG/V.svg"></div>
+            </div>
+        </div>
+        <div id="content" class="content">
+            <div id="source" class="source">
+                <div id="story" class="story">
+                    <div id="heading" class="heading">
+                        <div id="translate" name="post your story">Post your story:</div>
+                        <!--div id="import"></div-->
+                    </div>
+                    <div id="input" class="input box" contenteditable="plaintext-only"></div>
                 </div>
-                <div class="right">
-                    <dl>
-                        <dt>Info:</dt>
-                        <dd>Die Wörter in der Geschichten werden anhand der Dateinamen der Bilder ersetzt.</dd>
-                        <dd>Nach dem Erzeugen, kann man die Geschichte direkt hier im Browser lesen oder Drucken.</dd>
-                        <br>
-                        <dd><a href="https://github.com/Chaosmeister/Milege" class="button">zum Code</a></dd>
-                        <dd><a href="https://www.patreon.com/bePatron?u=6684747">Become a Patron!</a></dd>
-                    </dl>
+                <div id="images">
+                    <div id="heading" class="heading">
+                        <div id="translate" name="Add your images">Add your images:</div>
+                    </div>
+                    <div id="imageprototype" class="imageprototype">
+                        <div id="preview" class="preview box">
+                            <img id="previewpic"></img>
+                        </div>
+                        <div id="pills" class="pills box">
+                            <div id="addpill" class="addpill" onclick="addPill(this);">
+                                <img width="16" height="16" src="SVG/Plus.svg">
+                                <div id="translate" name="Add new">Add New</div>
+                            </div>
+                        </div>
+                        <div id="removeimage" class="removeimage box" onclick="removeImage(this)"><img width="30"
+                                height="30" src="SVG/Bin.svg"></div>
+                    </div>
+                    <div id="addimage" class="addimage" onclick="openFile()">
+                        <img width="48" height="48" src="SVG/Plus.svg">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="clearfix">
-            <div class="left">
-                <div style="text-align: center; padding: 20px">Hier die Geschichte rein</div>
-                <div contenteditable="plaintext-only" id="story" class="story"></div>
-            </div>
-            <div class="right">
-                <div style="text-align: center; padding: 20px">Hier die Bilder ablegen</div>
-                <input type="file" size="8" id="pictures" accept="image/png, image/jpeg" multiple>
-            </div>
-        </div>
-        <div>
-            <h2>Hier landet die fertige Geschichte:</h2>
-        </div>
-    </div>
-    <div id="result">
-        <style>
-            .image {
-                width: 40px;
-                height: 40px;
-                vertical-align: middle;
-                display: inline-block;
-            }
-
-            .preview {
-                border: solid;
-                width: 100%;
-                min-height: 100%;
-                background-color: white;
-                display: grid;
-            }
-
-            .action {
-                padding: 10px;
-            }
-        </style>
-        <div id="actions" class="noprint" style="display:flex; align-items: center; justify-content:center;">
-            <div id="ShowInNewTab" class="action">
-                <div class="pointer" onclick="showInNewTab()">In neuem Tab anzeigen</div>
-            </div>
-            <div id=Imagesize class="action">
-                <div id="increase" class="pointer" onclick="increaseImageSize()">Bildgröße +</div>
-                <br>
-                <div id="decrease" class="pointer" onclick="decreaseImageSize()">Bildgröße -</div>
-            </div>
-            <div id="print" class="action">
-                <svg class="pointer" onclick="window.print()" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20%" viewBox="0 0 334.805 334.806"
-                    style="enable-background:new 0 0 334.805 334.806;" xml:space="preserve">
-                    <path d="M298.909,121.78H259.2V25.347H75.6v96.433H35.888C16.097,121.78,0,137.882,0,157.668v79.65
-                   c0,19.786,16.097,35.891,35.888,35.891h36.115v36.25h190.798v-36.25h36.118c19.786,0,35.886-16.1,35.886-35.891v-79.65
-                   C334.8,137.882,318.706,121.78,298.909,121.78z M91.8,41.547H243v80.233H91.8V41.547z M246.602,273.209v20.05H88.198v-20.05
-                   v-14.871h158.398v14.871H246.602z M318.6,237.318c0,10.853-8.828,19.69-19.691,19.69h-36.112v-14.871H71.998v14.871h-36.11
-                   c-10.86,0-19.688-8.838-19.688-19.69v-79.65c0-10.853,8.828-19.688,19.688-19.688H75.6v0.042h183.6v-0.042h39.709
-                   c10.853,0,19.691,8.836,19.691,19.688V237.318z" />
-                    <path
-                        d="M271.798,174.095c10.446,0,10.446-16.2,0-16.2C261.351,157.895,261.351,174.095,271.798,174.095z" />
-                    <path d="M286.2,202.894H48.6c-4.478,0-8.1,3.628-8.1,8.1s3.623,8.1,8.1,8.1h237.6c4.478,0,8.101-3.628,8.101-8.1
-                   S290.677,202.894,286.2,202.894z" />
-                    <path d="M209.746,62.786h-84.691c-4.477,0-8.1,3.628-8.1,8.1c0,4.469,3.623,8.1,8.1,8.1h84.696c4.478,0,8.101-3.631,8.101-8.1
-                   C217.851,66.414,214.223,62.786,209.746,62.786z" />
-                    <path d="M209.746,89.786h-84.691c-4.477,0-8.1,3.628-8.1,8.1c0,4.469,3.623,8.1,8.1,8.1h84.696c4.478,0,8.101-3.631,8.101-8.1
-                   C217.851,93.414,214.223,89.786,209.746,89.786z" />
-                </svg>
+            <div id="target" class="target">
+                <div id="heading" class="heading">
+                    <div id="translate" name="Your finished Story">Your finished story:</div>
+                    <div id="options">
+                        <div id="size"></div>
+                        <div id="print"></div>
+                    </div>
+                </div>
+                <div id="result" class="result box" contenteditable="plaintext-only"></div>
             </div>
         </div>
-        <div id="preview" class="preview" style="line-height: 40px;"></div>
     </div>
 </body>
 
-<script>
-    var coll = document.getElementsByClassName("collapsible");
-
-    for (var i = 0; i < coll.length; ++i) {
-        coll[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
-        });
-    }
-
-    document.getElementById('story').addEventListener("input", createStory);
-    document.getElementById('pictures').addEventListener("change", createStory);
-
-    function createStory() {
-        var base64images = convert(document.getElementById('pictures').files);
-        createInlineImages(base64images);
-        assembleStory(document.getElementById('story').textContent, base64images);
-    };
-
-    function convert(files) {
-        var base64images = [];
-        for (let i = 0; i < files.length; ++i) {
-            const file = files[i];
-
-            if (!file.type.startsWith('image/')) { continue }
-
-            base64images.push({ name: file.name.replace(/\.[^/.]+$/, ""), data: toBase64(file) });
-        }
-        return base64images;
-    }
-
-    const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
-
-    async function createInlineImages(base64images) {
-        var style = "<style>";
-
-        for (let i = 0; i < base64images.length; ++i) {
-            const image = base64images[i];
-            style += "\n ." + image.name + "{background: url(" + await image.data + ") no-repeat left center;background-size: 100% 100%;}";
-        }
-
-        style += "\n</style>";
-
-        document.getElementById('preview').innerHTML = style + document.getElementById('preview').innerHTML;
-    }
-
-    async function assembleStory(text, images) {
-        for (let i = 0; i < images.length; ++i) {
-            const image = images[i];
-            text = text.replaceAll(new RegExp("\\b" + image.name + "\\b", 'g'), "<div class=\"image " + image.name + "\"></div>");
-        }
-
-        text = text.replace(/(?:\r\n|\r|\n)/g, '</span><span>');
-        text = text.replaceAll("</span><span></span><span>", '</span><span>');
-
-        document.getElementById('preview').innerHTML = "<span>" + text + "</span>";
-    }
-
-    function increaseImageSize() {
-        var preview = document.getElementById('preview');
-
-        var height = parseInt(preview.style.lineHeight);
-        var newHeight = (height * 1.1 + 1).toString() + "px";
-        preview.style.lineHeight = newHeight;
-
-        var Images = document.getElementsByClassName('image')
-        for (var i = 0; i < Images.length; ++i) {
-            Images[i].style.width = Images[i].style.height = newHeight;
-        }
-    }
-
-    function decreaseImageSize() {
-        var preview = document.getElementById('preview');
-
-        var height = parseInt(preview.style.lineHeight);
-        var newHeight = (height * 0.9).toString() + "px";
-        preview.style.lineHeight = newHeight;
-
-        var Images = document.getElementsByClassName('image')
-        for (var i = 0; i < Images.length; ++i) {
-            Images[i].style.width = Images[i].style.height = newHeight;
-        }
-    }
-
-    function showInNewTab() {
-        var log = document.getElementById("result");
-        var wnd = window.open("about:blank", "_blank");
-        wnd.document.write(
-            '<!doctype html>' +
-            '<html><head>' +
-            '<html style="font-family:verdana">' +
-            '<meta name="viewport" content="width=device-width, initial-scale=1.0" /> ' +
-            '<meta charset="UTF-8">' +
-            '<title>Milege</title>' +
-            '</head><body>' +
-            '<style> @media print {' +
-            '.noprint * {' +
-            'display: none;' +
-            '}' +
-            '</style>' +
-            '<div>' + log.innerHTML + '</div>' +
-            '</body></html>'
-        );
-        wnd.document.close();
-    }
-
-</script>
+<script src="story.js"></script>
+<script src="ui.js"></script>
 
 </html>
