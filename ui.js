@@ -31,8 +31,7 @@ function clickElem(elem) {
     elem.dispatchEvent(eventMouse)
 }
 
-function changefiles(e)
-{
+function changefiles(e) {
     readFiles(e.target.files)
 }
 
@@ -116,7 +115,7 @@ function addPill(newpillbutton, text) {
 
     var newContent = document.createElement("div");
     newContent.setAttribute("contenteditable", "plaintext-only");
-    newContent.setAttribute("onInput", "createStory();");
+    newContent.setAttribute("onInput", "");
 
     if (text) {
         newContent.innerText = text;
@@ -129,6 +128,23 @@ function addPill(newpillbutton, text) {
     newpill.innerHTML += '<img class="close" width="20" height="20" src="SVG/PlusWhite.svg" onclick=removePill(this);>'
 
     newpillbutton.parentElement.insertBefore(newpill, newpillbutton);
+
+    newpill.addEventListener('input', (e) => {
+        createStory();
+    });
+    newpill.addEventListener('keydown', (e) => {
+        console.log(e)
+        if (e.key === "Enter") {
+            e.preventDefault();
+            e.path[0].blur();
+            
+            if (window.getSelection) {
+                window.getSelection().removeAllRanges();
+            } else if (document.selection) {
+                document.selection.empty();
+            }
+        }
+    });
 }
 
 function removePill(pill) {
