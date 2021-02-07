@@ -82,8 +82,7 @@ body {
     height: 70px;
 }
 
-.previewimage
-{
+.previewimage {
     width: 50px;
     height: 50px;
 }
@@ -147,4 +146,11 @@ body {
 .result {
     height: 100%;
     display: grid;
+}
+
+.inlineimage {
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+    display: inline-block;
 }
