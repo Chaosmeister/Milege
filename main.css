@@ -11,16 +11,19 @@ body {
     background-color: #E5E5E5;
 }
 
+.block {
+    width:2.5%;
+}
+
 .header {
     display: flex;
     height: 64px;
     background-color: #264653;
     color: white;
-    align-items: stretch;
 }
 
 .title {
-    margin-left: 32px;
+    margin-left: 26px;
     margin-top: 8px;
     font-family: Pacifico;
     font-size: 28px;
