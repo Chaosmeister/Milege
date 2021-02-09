@@ -54,6 +54,8 @@ function insertTextAtSelection(div, txt)
   range.setStart(div.childNodes[0], before + txt.length);
   range.setEnd(div.childNodes[0], before + txt.length);
   sel.addRange(range);
+  
+    createStory();
 }
 
 function clickElem(elem) {
