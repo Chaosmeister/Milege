@@ -24,6 +24,38 @@ dropArea.addEventListener('drop', (event) => {
     readFiles(event.dataTransfer.files);
 });
 
+//override paste
+var input = document.getElementById("input");
+input.addEventListener("paste", e => {
+  //cancel paste
+  e.preventDefault();
+  //get plaintext from clipboard
+  let text = (e.originalEvent || e).clipboardData.getData('text/plain');
+  //insert text manually
+  insertTextAtSelection(input, text);
+});
+
+function insertTextAtSelection(div, txt)
+{
+  //get selection area so we can position insert
+  let sel = window.getSelection();
+  let text = div.textContent;
+  let before = Math.min(sel.focusOffset, sel.anchorOffset);
+  let after = Math.max(sel.focusOffset, sel.anchorOffset);
+  //ensure string ends with \n so it displays properly
+  let afterStr = text.substring(after);
+  if (afterStr == "") afterStr = "\n";
+  //insert content
+  div.textContent = text.substring(0, before) + txt + afterStr;
+  //restore cursor at correct position
+  sel.removeAllRanges();
+  let range = document.createRange();
+  //childNodes[0] should be all the text
+  range.setStart(div.childNodes[0], before + txt.length);
+  range.setEnd(div.childNodes[0], before + txt.length);
+  sel.addRange(range);
+}
+
 function clickElem(elem) {
     // Thx user1601638 on Stack Overflow (6/6/2018 - https://stackoverflow.com/questions/13405129/javascript-create-and-save-file )
     var eventMouse = document.createEvent("MouseEvents")
