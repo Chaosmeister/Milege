@@ -26,6 +26,7 @@ dropArea.addEventListener('drop', (event) => {
 
 //override paste
 var input = document.getElementById("input");
+
 input.addEventListener("paste", e => {
   //cancel paste
   e.preventDefault();
@@ -151,7 +152,7 @@ function addPill(newpillbutton, text) {
     newpill.setAttribute("class", "pill");
 
     var newContent = document.createElement("div");
-    newContent.setAttribute("contenteditable", "plaintext-only");
+    newContent.setAttribute("contenteditable", "true");
     newContent.setAttribute("onInput", "");
 
     if (text) {
@@ -169,6 +170,7 @@ function addPill(newpillbutton, text) {
     newpill.addEventListener('input', (e) => {
         createStory();
     });
+    
     newpill.addEventListener('keydown', (e) => {
         console.log(e)
         if (e.key === "Enter") {
@@ -182,6 +184,15 @@ function addPill(newpillbutton, text) {
             }
         }
     });
+    
+    newpill.addEventListener("paste", e => {
+  //cancel paste
+  e.preventDefault();
+  //get plaintext from clipboard
+  let text = (e.originalEvent || e).clipboardData.getData('text/plain');
+  //insert text manually
+  insertTextAtSelection(newpill, text);
+});
 }
 
 function removePill(pill) {
