@@ -21,7 +21,18 @@ dropArea.addEventListener('drop', (event) => {
     event.stopPropagation();
     event.preventDefault();
 
-    readFiles(event.dataTransfer.files);
+    
+    if (event.dataTransfer.files.length)
+    {
+        readFiles(event.dataTransfer.files);
+    }
+    else
+    {
+        var imageSrc = event.dataTransfer.getData('text/html');
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(imageSrc, 'text/html');
+        readFiles(doc.querySelector('img').src);
+    }
 });
 
 //override paste
